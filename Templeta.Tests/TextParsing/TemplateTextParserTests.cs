@@ -1,10 +1,9 @@
-﻿
-using System;
+﻿using System;
 using Templeta.TextParsing.Abstract;
 using Templeta.TextParsing.Concrete;
 using Xunit;
 
-namespace Templeta.Tests.Parser
+namespace Templeta.Tests.TextParsing
 {
     public class TemplateTextParserTests
     {
