@@ -3,6 +3,8 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <Folder Include="Helpers\" />
+    <Compile Remove="TextParsing\Tokenizing\**" />
+    <EmbeddedResource Remove="TextParsing\Tokenizing\**" />
+    <None Remove="TextParsing\Tokenizing\**" />
   </ItemGroup>
 </Project>
