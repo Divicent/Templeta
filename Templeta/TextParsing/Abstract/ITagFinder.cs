@@ -8,8 +8,6 @@ namespace Templeta.TextParsing.Abstract
         int End { get; }
         string Content { get; }
         string Name { get; }
-        string Row { get; }
-        string Column { get; }
     }
 
     /// <summary>

@@ -42,6 +42,29 @@ namespace Templeta.Tests.Helpers
             }
         }
 
+        [Theory]
+        [InlineData("a", 0, 1, 1)]
+        [InlineData(@"a
+b", 3, 2, 1)]
+        [InlineData(@"q
+b
+bjo", 8, 3, 3)]
+        [InlineData(@"q
+b
+bjo", 6, 3, 1)]
+        [InlineData("q\nb\nbjo", 4, 3, 1)]
+        [InlineData("", 0, 1, 1)]
+        public void GetLinePosition_ShouldReturnExactPositionOfAMulitilineText(string text, int start, int line, int column)
+        {
+            var helper = GetHelper();
+            var (l, c) = helper.GetLinePosition(text, start);
+
+            Assert.Equal(line, l);
+            Assert.Equal(column, c);
+        }
+
+
+
         private static ITextHelper GetHelper() => new TextHelper();
     }
 }

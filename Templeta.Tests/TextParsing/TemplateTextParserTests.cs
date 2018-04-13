@@ -23,6 +23,14 @@ namespace Templeta.Tests.TextParsing
             ShouldThrowExceptionWithMessage<ArgumentException>(() => { GetTextTemplateParser().Parse(text); }, "Provided string is not a valid template string");
         }
 
+        [Fact]
+        public void Parse_ShouldPassIfStringIsValid()
+        {
+            GetTextTemplateParser().Parse("<if>");
+        }
+
+
+
         private static ITemplateTextParser GetTextTemplateParser () => new TextTemplateParser();
 
         private static void ShouldThrowExceptionWithMessage<T>(Action func, string message) where T:Exception

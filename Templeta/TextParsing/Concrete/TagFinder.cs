@@ -12,8 +12,6 @@ namespace Templeta.TextParsing.Concrete
         public int End { get; set; }
         public string Content { get; set; }
         public string Name { get; set; }
-        public string Row { get; set; }
-        public string Column { get; set; }
     }
 
     public class TagFinder : ITagFinder

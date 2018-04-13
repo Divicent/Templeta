@@ -1,6 +1,4 @@
-﻿
-using System;
-using System.Text;
+﻿using System.Text;
 using Templeta.Helpers.Abstract;
 
 namespace Templeta.Helpers.Concrete
@@ -8,11 +6,6 @@ namespace Templeta.Helpers.Concrete
     public class TokenStringBuilder: ITokenStringBuilder
     {
         private readonly StringBuilder _internalStringBuilder;
-
-        public TokenStringBuilder()
-        {
-            _internalStringBuilder = new StringBuilder();
-        }
 
         public TokenStringBuilder(string initialString)
         {

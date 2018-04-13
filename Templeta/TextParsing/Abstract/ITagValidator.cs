@@ -2,8 +2,16 @@
 
 namespace Templeta.TextParsing.Abstract
 {
+    public interface ITagValidationResult
+    {
+        bool Success { get; }
+        int InvalidTagPosition { get; }
+        string InvalidTagName { get; }
+        string SpecialMessage { get; }
+    }
+
     public interface ITagValidator
     {
-        void Validate(IEnumerable<ITagFragment> tags, IEnumerable<ITagFragment> tagFragments);
+        ITagValidationResult Validate(IEnumerable<ITagFragment> tags, IEnumerable<ITagFragment> tagFragments);
     }
 }
