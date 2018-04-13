@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Templeta.TextParsing.Abstract;
 
@@ -7,7 +6,7 @@ namespace Templeta.TextParsing.Concrete
 {
     public class TagValidationResult : ITagValidationResult
     {
-        public bool Success { get; set; }
+        public bool Valid { get; set; }
         public int InvalidTagPosition { get; set; }
         public string InvalidTagName { get; set; }
         public string SpecialMessage { get; set; }
@@ -24,14 +23,14 @@ namespace Templeta.TextParsing.Concrete
             {
                 return new TagValidationResult
                 {
-                    Success = false,
+                    Valid = false,
                     SpecialMessage = "Count of end tags and star tags should be the same"
                 };
             }
 
-            var startingIndex = 0;
-            var endingIndex = startingTags.Count - 1;
-            while (startingIndex < startingTags.Count)
+            var startingIndex = -1;
+            var endingIndex = startingTags.Count;
+            while (startingIndex < startingTags.Count - 1)
             {
                 startingIndex++;
                 endingIndex--;
@@ -43,7 +42,7 @@ namespace Templeta.TextParsing.Concrete
                 {
                     return new TagValidationResult
                     {
-                        Success = false,
+                        Valid = false,
                         InvalidTagName = start.Name,
                         InvalidTagPosition = start.Start,
                         SpecialMessage = "The tag does not have an ending tag"
@@ -51,7 +50,7 @@ namespace Templeta.TextParsing.Concrete
                 }
             }
 
-            throw new NotImplementedException();
+            return new TagValidationResult {Valid = true};
         }
     }
 }

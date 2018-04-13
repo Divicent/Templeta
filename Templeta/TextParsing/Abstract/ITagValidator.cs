@@ -4,7 +4,7 @@ namespace Templeta.TextParsing.Abstract
 {
     public interface ITagValidationResult
     {
-        bool Success { get; }
+        bool Valid { get; }
         int InvalidTagPosition { get; }
         string InvalidTagName { get; }
         string SpecialMessage { get; }

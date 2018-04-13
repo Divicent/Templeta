@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Templeta.TextParsing.Abstract;
 using Templeta.TextParsing.Concrete;
@@ -16,18 +17,28 @@ namespace Templeta.Tests.TextParsing
         {
 
             var result = Validate(new List<string> { "if" }, new List<string> { "if", "if" });
-            False(result.Success);
+            False(result.Valid);
             Equal("Count of end tags and star tags should be the same",  result.SpecialMessage);
 
         }
 
-        [Fact]
-        public void Validate_StartingTagShouldHaveEndingTag()
+        [Theory]
+        [InlineData("if|for", "if|if", false, "The tag does not have an ending tag", "for")]
+        [InlineData("if", "if", true, null, null)]
+        [InlineData("if|if", "if|if", true, null, null)]
+        [InlineData("if|for|for", "if|if|if", false, "The tag does not have an ending tag", "for")]
+        [InlineData("if|for|else", "else|for|if", true, null, null)]
+        [InlineData("", "", true, null, null)]
+        public void Validate_ShouldReturnCorrectResult(string startingtags, string endingTags, bool valid, string message, string tag)
         {
-            var result = Validate(new List<string> { "if", "for" }, new List<string> { "if", "if" });
-            False(result.Success);
-            Equal("The tag does not have an ending tag", result.SpecialMessage);
-            Equal("for", result.InvalidTagName);
+            var result = Validate(startingtags.Split("|", StringSplitOptions.RemoveEmptyEntries).ToList(), endingTags.Split("|", StringSplitOptions.RemoveEmptyEntries).ToList());
+            Equal(valid, result.Valid);
+            if (!valid)
+            {
+                Equal(message, result.SpecialMessage);
+                Equal(tag, result.InvalidTagName);
+            }
+            
         }
 
         private ITagValidationResult Validate(IEnumerable<string> s, IEnumerable<string> e) => _validator.Validate(Tags(s), Tags(e));
