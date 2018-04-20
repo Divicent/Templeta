@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Templeta.TextParsing.Abstract.Models;
 
 namespace Templeta.TextParsing.Abstract
 {
@@ -12,6 +13,6 @@ namespace Templeta.TextParsing.Abstract
 
     public interface ITagValidator
     {
-        ITagValidationResult Validate(IEnumerable<ITagFragment> tags, IEnumerable<ITagFragment> tagFragments);
+        ITagValidationResult Validate(IEnumerable<ITagInfo> tags, IEnumerable<ITagInfo> tagFragments);
     }
 }

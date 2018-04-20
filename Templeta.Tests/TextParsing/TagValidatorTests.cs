@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using Templeta.TextParsing.Abstract;
+using Templeta.TextParsing.Abstract.Models;
 using Templeta.TextParsing.Concrete;
 using Xunit;
 using static Xunit.Assert;
+using TagInfo = Templeta.TextParsing.Concrete.Models.TagInfo;
 
 namespace Templeta.Tests.TextParsing
 {
@@ -41,7 +43,18 @@ namespace Templeta.Tests.TextParsing
             
         }
 
+        [Fact]
+        public void Validate_ShouldSetTheRelatedTag()
+        {
+            var startTag = new TagInfo {TagName = "if"};
+            var endTag = new TagInfo {TagName = "if"};
+            _validator.Validate(new List<ITagInfo> {startTag}, new List<ITagInfo> {endTag});
+
+            Same(startTag.RelatedTag, endTag);
+            Same(endTag.RelatedTag, startTag);
+        }
+
         private ITagValidationResult Validate(IEnumerable<string> s, IEnumerable<string> e) => _validator.Validate(Tags(s), Tags(e));
-        private static IEnumerable<ITagFragment> Tags(IEnumerable<string> li) => li.Select(l => new TagFragment { Name = l }).ToList();
+        private static IEnumerable<ITagInfo> Tags(IEnumerable<string> li) => li.Select(l => new TagInfo { TagName = l }).ToList();
     }
 }

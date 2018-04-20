@@ -16,7 +16,7 @@
         /// Will return line number and position by using the given exact position in the string
         /// </summary>
         /// <param name="text">Text to be used</param>
-        /// <param name="start">Start index of the target string</param>
+        /// <param name="start">StartIndexInTheText index of the target string</param>
         /// <returns></returns>
         (int line, int column) GetLinePosition(string text, int start);
     }

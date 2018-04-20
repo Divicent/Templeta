@@ -19,23 +19,25 @@ namespace Templeta.Tests.TextParsing
         }
 
         [Theory]
-        [InlineData("<_if>")]
-        [InlineData("<_if >")]
-        [InlineData("<_if dsa>")]
-        [InlineData("<_if dsa=\"\">")]
-        [InlineData("<_if dsa=\"dsa\">")]
-        [InlineData("<_if a b c>")]
-        public void Find_ShouldFindSimpleStartingTag(string feed)
+        [InlineData("<_if>", "")]
+        [InlineData("<_if >", " ")]
+        [InlineData("<_if dsa>", " dsa")]
+        [InlineData("<_if dsa=\"\">", " dsa=\"\"")]
+        [InlineData("<_if dsa=\"dsa\">", " dsa=\"dsa\"")]
+        [InlineData("<_if a b c>", " a b c")]
+        public void Find_ShouldFindSimpleStartingTag(string feed, string innerContent)
         {
             var (startingTags, _) = _finder.Find(feed);
             NotNull(startingTags);
             Single(startingTags);
             var first = startingTags[0];
 
-            Equal(feed, first.Content);
-            Equal("if", first.Name);
-            Equal(0, first.Start);
-            Equal(first.End, feed.Length);
+            Equal(feed, first.OriginalTextRepresentation);
+            True(first.IsAStartingTag);
+            Equal("if", first.TagName);
+            Equal(0, first.StartIndexInTheText);
+            Equal(first.EndIndexInTheString, feed.Length);
+            Equal(first.InnerContent , innerContent);
         }
 
         [Theory]
@@ -75,10 +77,11 @@ namespace Templeta.Tests.TextParsing
             Single(endingTags);
             var first = endingTags[0];
 
-            Equal(feed, first.Content);
-            Equal("if", first.Name);
-            Equal(0, first.Start);
-            Equal(feed.Length, first.End);
+            Equal(feed, first.OriginalTextRepresentation);
+            False(first.IsAStartingTag);
+            Equal("if", first.TagName);
+            Equal(0, first.StartIndexInTheText);
+            Equal(feed.Length, first.EndIndexInTheString);
         }
 
         [Fact]
@@ -88,7 +91,7 @@ namespace Templeta.Tests.TextParsing
             NotNull(startingTags);
             Single(startingTags);
             var first = startingTags[0];
-            Equal("for", first.Name);
+            Equal("for", first.TagName);
         }
 
         [Theory]

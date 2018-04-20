@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Templeta.TextParsing.Abstract;
+using Templeta.TextParsing.Abstract.Models;
 
 namespace Templeta.TextParsing.Concrete
 {
@@ -14,7 +15,7 @@ namespace Templeta.TextParsing.Concrete
 
     public class TagValidator : ITagValidator
     {
-        public ITagValidationResult Validate(IEnumerable<ITagFragment> starting, IEnumerable<ITagFragment> ending)
+        public ITagValidationResult Validate(IEnumerable<ITagInfo> starting, IEnumerable<ITagInfo> ending)
         {
             var startingTags = starting.ToList();
             var endingTags = ending.ToList();
@@ -38,16 +39,19 @@ namespace Templeta.TextParsing.Concrete
                 var start = startingTags[startingIndex];
                 var end = endingTags[endingIndex];
 
-                if (start.Name != end.Name)
+                if (start.TagName != end.TagName)
                 {
                     return new TagValidationResult
                     {
                         Valid = false,
-                        InvalidTagName = start.Name,
-                        InvalidTagPosition = start.Start,
+                        InvalidTagName = start.TagName,
+                        InvalidTagPosition = start.StartIndexInTheText,
                         SpecialMessage = "The tag does not have an ending tag"
                     };
                 }
+
+                start.RelatedTag = end;
+                end.RelatedTag = start;
             }
 
             return new TagValidationResult {Valid = true};
