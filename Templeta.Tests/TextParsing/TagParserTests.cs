@@ -1,22 +1,21 @@
 ﻿using Templeta.TextParsing.Abstract;
 using Templeta.TextParsing.Concrete;
-using Templeta.TextParsing.Concrete.Models;
 using Xunit;
 
 namespace Templeta.Tests.TextParsing
 {
     public class TagParserTests
     {
-        [Fact]
-        public void ParseEmptyTag()
+        [Theory]
+        [InlineData("")]
+        [InlineData(null)]
+        [InlineData(" ")]
+        public void ParseTagContent_ShouldReturnEmptyListForEmptyContent(string content)
         {
             ITagParser tagParser = new TagParser();
-            var tag = new TagInfo {OriginalTextRepresentation = "<_if>"};
-            tagParser.ParseTagContent(tag);
-        }
+            var result = tagParser.ParseTagContent(content);
 
-        public void ParseTagContent_ShouldSetAttributeCollection()
-        {
+            Assert.Empty(result);
         }
     }
 }

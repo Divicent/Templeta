@@ -1,4 +1,5 @@
-﻿using Templeta.TextParsing.Abstract.Models;
+﻿using System.Collections.Generic;
+using Templeta.TextParsing.Abstract.Models;
 
 namespace Templeta.TextParsing.Abstract
 {
@@ -7,6 +8,6 @@ namespace Templeta.TextParsing.Abstract
     /// </summary>
     public interface ITagParser
     {
-        void ParseTagContent(ITagInfo tag);
+        ICollection<IAttributeInfo> ParseTagContent(string innerContent);
     }
 }
